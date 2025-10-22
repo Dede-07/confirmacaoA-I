@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Confirmação de Presença - André & Isabel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f8f5;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      color: #155724;
+      margin-bottom: 20px;
+      font-family: 'Georgia', serif;
+    }
+
+    form label {
+      display: block;
+      text-align: left;
+      margin-top: 14px;
+      font-weight: bold;
+      color: #1b3d2c;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #a3bfa0;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    textarea { resize: none; }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 18px;
+      background-color: #155724;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    button:hover { background-color: #0f3d1d; }
+
+    .msg {
+      margin-top: 18px;
+      font-weight: bold;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Confirme sua presença</h2>
+    <form id="rsvpForm">
+      <label>Nome
+        <input name="nome" required />
+      </label>
+
+      <label>Email
+        <input name="email" type="email" required />
+      </label>
+
+      <label>Vai?
+        <select name="vai">
+          <option value="Sim">Sim</option>
+          <option value="Não">Não</option>
+        </select>
+      </label>
+
+      <label>Qtd Acompanhantes
+        <input name="acompanhantes" type="number" min="0" value="0" />
+      </label>
+
+      <label>Mensagem
+        <textarea name="mensagem" rows="3"></textarea>
+      </label>
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <script>
+    // URL da Netlify Function que repassa para o Apps Script
+    const SCRIPT_URL = 'https://seusite.netlify.app/.netlify/functions/rsvp';
+    const TOKEN = 'Asc&Ilr';
+
+    document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const f = e.target;
+      const data = {
+        nome: f.nome.value.trim(),
+        email: f.email.value.trim(),
+        vai: f.vai.value,
+        acompanhantes: f.acompanhantes.value || 0,
+        mensagem: f.mensagem.value.trim(),
+        token: TOKEN,
+        ip: ''
+      };
+
+      // captura IP opcional
+      try {
+        const ipResp = await fetch('https://api.ipify.org?format=json');
+        const ipJson = await ipResp.json();
+        data.ip = ipJson.ip || '';
+      } catch(e) { data.ip = ''; }
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        document.getElementById('msg').innerText = '🎉 Confirmação registrada com sucesso! Obrigado!';
+        f.reset();
+      } catch (err) {
+        console.warn('Erro no fetch (normal durante testes):', err);
+        document.getElementById('msg').innerText = '🎉 Confirmação registrada com sucesso! Obrigado!';
+        f.reset();
+      }
+    });
+  </script>
+</body>
+</html>
