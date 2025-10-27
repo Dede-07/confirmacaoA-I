@@ -13,7 +13,7 @@ export async function handler(event) {
 
   try {
     const body = event.body; // string JSON do HTML
-    const targetUrl = 'https://script.google.com/macros/s/AKfycbwztbIXINRLAj9Qn6tj9ZuVH6RawFq9lqVkDO9nVLokfKJRri9vu_cvbQKB8LoZtqw/exec';
+    const targetUrl = 'https://script.google.com/macros/s/AKfycbw0i59_6h1pTOOgo9hg5skmmI9yeIe7OXgfteN_WVOE0UHFt25DLdxUfu5wEdTnzCg/exec';
 
     const resp = await fetch(targetUrl, {
       method: 'POST',
