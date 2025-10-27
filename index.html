@@ -1,16 +1,29 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Confirmação de Presença - André & Isabel</title>
+
   <style>
+    @font-face {
+      font-family: 'Cheops Web';
+      src: url('cheops.woff2') format('woff2');
+      src: url('cheops.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f8f5;
-      padding: 20px;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #faf8f5;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       display: flex;
       justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
     }
@@ -19,16 +32,16 @@
       background: #ffffff;
       padding: 30px 25px;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(29, 44, 13, 0.1);
       max-width: 500px;
       width: 100%;
       text-align: center;
     }
 
     h2 {
-      color: #155724;
-      margin-bottom: 20px;
-      font-family: 'Georgia', serif;
+      color: #252d1b;
+      font-size: 25px;
+      font-family: 'Montserrat', sans-serif;
     }
 
     form label {
@@ -36,12 +49,14 @@
       text-align: left;
       margin-top: 14px;
       font-weight: bold;
-      color: #1b3d2c;
+      color: #252d1b;
     }
 
-    input, textarea, select {
+    input,
+    select {
       width: 100%;
       padding: 10px;
+      margin-bottom: 6px;
       margin-top: 6px;
       border: 1px solid #a3bfa0;
       border-radius: 8px;
@@ -49,12 +64,10 @@
       box-sizing: border-box;
     }
 
-    textarea { resize: none; }
-
     button {
       margin-top: 20px;
       padding: 12px 18px;
-      background-color: #155724;
+      background-color: #252d1b;
       color: #fff;
       border: none;
       border-radius: 8px;
@@ -64,25 +77,49 @@
       transition: background 0.3s ease;
     }
 
-    button:hover { background-color: #0f3d1d; }
+    button:hover {
+      background-color: #0f3d1b;
+    }
 
-    .msg {
-      margin-top: 18px;
-      font-weight: bold;
-      color: #155724;
+    .two-cols {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .two-cols label {
+      flex: 1;
+      margin-top: 0;
+      /* evita margem dupla */
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 540px) {
+      .two-cols {
+        flex-direction: column;
+      }
+
+      .two-cols label {
+        margin-top: 14px;
+      }
     }
   </style>
 </head>
+
 <body>
+  <div>
+    <h1 style="font-family: 'Cheops Web', sans-serif; text-align: center; color: #252d1b; font-size: 40px;">André & Isabel</h1>
+  </div>
   <div class="container">
     <h2>Confirme sua presença</h2>
     <form id="rsvpForm">
       <label>Nome
-        <input name="nome" required />
+        <input name="nome" required placeholder="Digite seu nome completo"/>
       </label>
 
-      <label>Email
-        <input name="email" type="email" required />
+      <label>Telefone (Whatsapp)
+        <input name="telefone" type="tel" required placeholder="(DDD)12345-6789"/>
       </label>
 
       <label>Vai?
@@ -92,44 +129,44 @@
         </select>
       </label>
 
-      <label>Qtd Acompanhantes
-        <input name="acompanhantes" type="number" min="0" value="0" />
-      </label>
+      <div class="two-cols">
+        <label>Qtd de Adultos (incluindo você)
+          <input name="acompanhantes" type="number" min="0" value="0" />
+        </label>
 
-      <label>Mensagem
-        <textarea name="mensagem" rows="3"></textarea>
-      </label>
+        <label>Qtd de Crianças (menores que 12 anos)
+          <input name="criancas" type="number" min="0" value="0" />
+        </label>
+      </div>
 
-      <button type="submit">Enviar</button>
+      <button type="submit">Confirmar Presença</button>
     </form>
 
     <div class="msg" id="msg"></div>
   </div>
 
   <script>
-    // URL da Netlify Function que repassa para o Apps Script
     const SCRIPT_URL = 'https://confirmacao-ai.netlify.app/.netlify/functions/rsvp';
     const TOKEN = 'Asc&Ilr';
 
-    document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+    document.getElementById('rsvpForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const f = e.target;
       const data = {
         nome: f.nome.value.trim(),
-        email: f.email.value.trim(),
+        telefone: f.telefone.value.trim(),
         vai: f.vai.value,
         acompanhantes: f.acompanhantes.value || 0,
-        mensagem: f.mensagem.value.trim(),
+        criancas: f.criancas.value || 0,
         token: TOKEN,
         ip: ''
       };
 
-      // captura IP opcional
       try {
         const ipResp = await fetch('https://api.ipify.org?format=json');
         const ipJson = await ipResp.json();
         data.ip = ipJson.ip || '';
-      } catch(e) { data.ip = ''; }
+      } catch (e) { data.ip = ''; }
 
       try {
         await fetch(SCRIPT_URL, {
@@ -140,12 +177,11 @@
         document.getElementById('msg').innerText = '🎉 Confirmação registrada com sucesso! Obrigado!';
         f.reset();
       } catch (err) {
-        console.warn('Erro no fetch (normal durante testes):', err);
-        document.getElementById('msg').innerText = '🎉 Confirmação registrada com sucesso! Obrigado!';
-        f.reset();
+        console.warn('Erro no fetch:', err);
+        document.getElementById('msg').innerText = '❌ Ocorreu um erro ao enviar. Tente novamente.';
       }
     });
   </script>
 </body>
-</html>
 
+</html>
