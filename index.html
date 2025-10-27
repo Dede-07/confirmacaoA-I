@@ -5,8 +5,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Confirmação de Presença - André & Isabel</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
   <style>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
     @font-face {
       font-family: 'Cheops Web';
       src: url('cheops.woff2') format('woff2');
@@ -19,7 +22,7 @@
       font-family: 'Montserrat', sans-serif;
       background-color: #faf8f5;
       margin: 0;
-      padding: 10px;
+      padding: 0;
       box-sizing: border-box;
       display: flex;
       justify-content: center;
@@ -102,6 +105,33 @@
       flex-direction: column;
     }
 
+    .notice {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      text-align: left;
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(37, 45, 27, 0.03);
+    }
+
+    .notice .bi {
+      font-size: 32px;
+      /* ícone maior */
+      color: #252d1b;
+      flex: 0 0 auto;
+      line-height: 1;
+    }
+
+    .notice p {
+      margin: 0;
+      color: #252d1b;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
     @media (max-width: 540px) {
       .two-cols {
         flex-direction: column;
@@ -110,23 +140,32 @@
       .two-cols label {
         margin-top: 14px;
       }
+
+      .notice {
+        gap: 10px;
+      }
+
+      .notice .bi {
+        font-size: 26px;
+      }
     }
   </style>
 </head>
 
 <body>
   <div>
-    <h1 style="font-family: 'Cheops Web', sans-serif; text-align: center; color: #252d1b; font-size: 40px;">André & Isabel</h1>
+    <h1 style="font-family: 'Cheops Web', sans-serif; text-align: center; color: #252d1b; font-size: 30px;">André &
+      Isabel</h1>
   </div>
   <div class="container">
     <h2>Confirme sua presença</h2>
     <form id="rsvpForm">
       <label>Nome
-        <input name="nome" required placeholder="Digite seu nome completo"/>
+        <input name="nome" required placeholder="Digite seu nome completo" />
       </label>
 
       <label>Telefone (Whatsapp)
-        <input name="telefone" type="tel" required placeholder="(DDD)12345-6789"/>
+        <input name="telefone" type="tel" required placeholder="(DDD)12345-6789" />
       </label>
 
       <label>Vai?
@@ -145,6 +184,13 @@
           <input name="criancas" type="number" min="0" value="0" />
         </label>
       </div>
+      <br>
+      <!-- aviso com ícone maior e texto ao lado -->
+      <div class="notice" role="status" aria-live="polite">
+        <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+        <p>Ao clicar em <strong>"Confirmar Presença"</strong>, aguarde o envio das suas informações. Aparecerá uma
+          mensagem de confirmação logo abaixo do botão.</p>
+      </div> <br>
 
       <button type="submit">Confirmar Presença</button>
     </form>
@@ -181,7 +227,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        document.getElementById('msg').innerText = '🎉 Confirmação registrada com sucesso! Obrigado!';
+        document.getElementById('msg').innerText = '✔ Confirmação registrada com sucesso! Obrigado!';
         f.reset();
       } catch (err) {
         console.warn('Erro no fetch:', err);
@@ -192,5 +238,3 @@
 </body>
 
 </html>
-
-
