@@ -21,8 +21,8 @@
     body {
       font-family: 'Montserrat', sans-serif;
       background-color: #faf8f5;
-      margin: 15px;
-      padding: 10px;
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
       display: flex;
       justify-content: center;
@@ -33,76 +33,106 @@
 
     .container {
       background: #ffffff;
-      padding: 30px 25px;
+      padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(29, 44, 13, 0.1);
-      max-width: 500px;
+      box-shadow: 0 6px 20px rgba(29, 44, 13, 0.08);
+      max-width: 900px;
       width: 100%;
-      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      box-sizing: border-box;
     }
 
-    h2 {
-      color: #555d3d;
-      font-size: 25px;
+    .left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      text-align: center;
+      color: #2b2f21;
+    }
+
+    .left .names {
+      font-family: 'Cheops Web', serif;
+      font-size: 48px;
+      line-height: 1;
+      color: #2b2f21;
+      margin: 0 0 8px 0;
+      letter-spacing: 0.6px;
+    }
+
+    .left .subtitle {
       font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      color: #6b6f62;
+      margin: 5px 0 10px 0;
+    }
+
+    .left .accent {
+      width: 72px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #b08b4f, #d6b76b);
+      margin: 12px 0;
+    }
+
+    .right {
+      padding: 6px 4px;
     }
 
     form label {
       display: block;
       text-align: left;
-      margin-top: 14px;
+      margin-top: 20px;
       font-weight: bold;
-      color: #555d3d;
+      color: #252d1b;
     }
 
+    /* ======== Inputs e selects ======== */
     input,
     select {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 6px;
+      padding: 8px 10px;
       margin-top: 6px;
-      border: 1px solid #a3bfa0;
-      border-radius: 8px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 12px 18px;
-      background-color: #99663a;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #0f3d1b;
-    }
-
-    .msg {
-      margin-top: 10px;
+      border: 1.6px solid #d6d2c4;
+      border-radius: 10px;
       font-size: 15px;
-      color: #555d3d;
-      font-weight: bold;
+      background-color: #fafaf7;
+      color: #2b2f21;
+      box-sizing: border-box;
+      transition: all 0.25s ease;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #b08b4f;
+      background-color: #fffef8;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(176, 139, 79, 0.15);
+    }
+
+    input::placeholder {
+      color: #a8a89f;
+      font-size: 14px;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='%23b08b4f' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 16px;
+      padding-right: 36px;
     }
 
     .two-cols {
       display: flex;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .two-cols label {
-      flex: 1;
-      margin-top: 0;
-      /* evita margem dupla */
-      display: flex;
-      flex-direction: column;
+      gap: 16px;
     }
 
     .notice {
@@ -110,7 +140,7 @@
       gap: 12px;
       align-items: center;
       text-align: left;
-      margin-top: 14px;
+      margin-top: 30px;
       padding: 10px;
       border-radius: 8px;
       background: rgba(37, 45, 27, 0.03);
@@ -118,27 +148,72 @@
 
     .notice .bi {
       font-size: 32px;
-      /* ícone maior */
-      color: #555d3d;
+      color: #252d1b;
       flex: 0 0 auto;
       line-height: 1;
     }
 
     .notice p {
       margin: 0;
-      color: #555d3d;
+      color: #252d1b;
       font-weight: 600;
       font-size: 14px;
       line-height: 1.2;
     }
 
+    button {
+      display: block;
+      /* Faz o botão ocupar uma linha inteira */
+      margin: 30px auto 0 auto;
+      /* Centraliza horizontalmente */
+      padding: 12px 18px;
+      background: linear-gradient(180deg, #b08b4f, #8f6d39);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(16, 16, 12, 0.12);
+    }
+
+    .msg {
+      margin-top: 18px;
+      font-weight: 600;
+      color: #252d1b;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 780px) {
+      .container {
+        display: block;
+        padding: 30px 20px;
+      }
+
+      .left {
+        margin-bottom: 12px;
+      }
+
+      .left .names {
+        font-size: 34px;
+      }
+
+      .left .subtitle {
+        font-size: 13px;
+      }
+    }
+
     @media (max-width: 540px) {
       .two-cols {
         flex-direction: column;
-      }
-
-      .two-cols label {
-        margin-top: 14px;
+        gap: 0;
       }
 
       .notice {
@@ -153,49 +228,53 @@
 </head>
 
 <body>
-  <div>
-    <h1 style="font-family: 'Cheops Web', sans-serif; text-align: center; color: #252d1b; font-size: 30px;">André &
-      Isabel</h1>
-  </div>
   <div class="container">
-    <h2>Confirme sua presença</h2>
-    <form id="rsvpForm">
-      <label>Nome
-        <input name="nome" required placeholder="Digite seu nome completo" />
-      </label>
+    <div class="left" aria-hidden="false">
+      <div class="names">André &amp; Isabel</div>
+      <div class="subtitle">Será uma alegria ter você conosco</div>
+      <div class="accent" aria-hidden="true"></div>
+      <div style="font-size:13px;color:#777;margin-top:10px;font-weight: 500;">09 • 10 • 2027</div>
+    </div>
 
-      <label>Telefone (Whatsapp)
-        <input name="telefone" type="tel" required placeholder="(DDD)12345-6789" />
-      </label>
-
-      <label>Confirma?
-        <select name="vai">
-          <option value="Sim">Sim</option>
-          <option value="Não">Não</option>
-        </select>
-      </label>
-
-      <div class="two-cols">
-        <label>Qtd de Adultos (incluindo você)
-          <input name="acompanhantes" type="number" min="0" value="0" />
+    <div class="right">
+      <!-- <h2 style="margin-top:0;">Confirme sua presença</h2> -->
+      <form id="rsvpForm">
+        <label>Nome
+          <input name="nome" required placeholder="Digite seu nome completo" />
         </label>
 
-        <label>Qtd de Crianças (menores que 12 anos)
-          <input name="criancas" type="number" min="0" value="0" />
+        <label>Telefone (Whatsapp)
+          <input name="telefone" type="tel" required placeholder="(DDD) 12345-6789" />
         </label>
-      </div>
-      <br>
-      <!-- aviso com ícone maior e texto ao lado -->
-      <div class="notice" role="status" aria-live="polite">
-        <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
-        <p>Ao clicar em <strong>"Confirmar Presença"</strong>, aguarde o envio das suas informações. Aparecerá uma
-          mensagem de confirmação logo abaixo do botão.</p>
-      </div> <br>
 
-      <button type="submit">Confirmar Presença</button>
-    </form>
+        <label>Confirma Presença?
+          <select name="vai">
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </label>
 
-    <div class="msg" id="msg"></div>
+        <div class="two-cols">
+          <label>Qtd de Adultos (incluindo você)
+            <input name="acompanhantes" type="number" min="0" value="0" />
+          </label>
+
+          <label>Qtd de Crianças (menores que 12 anos)
+            <input name="criancas" type="number" min="0" value="0" />
+          </label>
+        </div>
+
+        <div class="notice" role="status" aria-live="polite">
+          <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+          <p>Ao clicar em <strong>"Confirmar Presença"</strong>, aguarde o envio das suas informações. Aparecerá uma
+            mensagem de confirmação logo abaixo do botão.</p>
+        </div>
+
+        <button type="submit">Confirmar Presença</button>
+      </form>
+
+      <div class="msg" id="msg" style="text-align:center;"></div>
+    </div>
   </div>
 
   <script>
@@ -238,6 +317,7 @@
 </body>
 
 </html>
+
 
 
 
